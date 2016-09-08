@@ -2,8 +2,8 @@
 
 <div class="container">
   
-  <h1>Hello there</h1>
+  <h1>Hello there<span ng-show="vm.isLoggedIn">, {{vm.currentUser.name}}</span></h1>
 
-  <p>Won't you please <a href="login">sign in</a> or <a href="register">register</a>?</p>
+  <p ng-hide="vm.isLoggedIn">Won't you please <a href="login">sign in</a> or <a href="register">register</a>?</p>
 
 </div>
