@@ -60,10 +60,10 @@
     };
 
     return {
-      currentUser : currentUser,
       saveToken : saveToken,
       getToken : getToken,
       isLoggedIn : isLoggedIn,
+      currentUser : currentUser,
       register : register,
       login : login,
       logout : logout
