@@ -1,4 +1,4 @@
-# MEAN Stack Authentication Example
+# MEAN Stack with Token-based Authentication
 
 Prerequisites: ```node```/```npm``` and MongoDB installed on host system
 
@@ -9,7 +9,7 @@ Run application: ```bin/www``` (serves to [localhost:3000](http://localhost:3000
 
 ##Authentication Flow
 
-**MongoDB** stores user data, hashed passwords, and salts (```moongose.js``` is used for modeling)
+**MongoDB** stores user data, hashed passwords, and salts (```mongoose.js``` is used for modeling)
 
 **Express** API defines the REST interface (```passport.js``` is the authentication middleware)
 
