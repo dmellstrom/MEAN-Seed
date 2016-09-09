@@ -4,8 +4,8 @@
     .module('meanApp')
     .controller('navigationCtrl', navigationCtrl);
 
-  navigationCtrl.$inject = ['$location', 'authentication'];
-  function navigationCtrl($location, authentication) {
+  navigationCtrl.$inject = ['$rootScope', '$location', '$route', 'authentication'];
+  function navigationCtrl($rootScope, $location, $route, authentication) {
     var vm = this;
 
     vm.isLoggedIn = authentication.isLoggedIn();
@@ -14,7 +14,11 @@
 
     vm.logout = function() {
         authentication.logout();
-        $location.path('/');
+        if ($rootScope.protected.indexOf($location.path()) != -1) {
+          $location.path('/');
+        } else {
+          $route.reload();
+        }
     }
   }
 

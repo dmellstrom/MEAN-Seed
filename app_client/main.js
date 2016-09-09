@@ -31,8 +31,12 @@
   }
 
   function run($rootScope, $location, authentication) {
+
+    // protected routes
+    $rootScope.protected = ['/profile'];
+
     $rootScope.$on('$routeChangeStart', function(event, nextRoute, currentRoute) {
-      if ($location.path() === '/profile' && !authentication.isLoggedIn()) {
+      if ($rootScope.protected.indexOf($location.path()) != -1 && !authentication.isLoggedIn()) {
         $location.path('/');
       }
     });
