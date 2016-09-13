@@ -6,9 +6,9 @@
         <li><a href="/about">About</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li ng-hide="navvm.isLoggedIn"><a href="login">Sign in</a></li>
-        <li ng-show="navvm.isLoggedIn"><a href="profile">{{ navvm.currentUser.name }}</a></li>
-        <li ng-show="navvm.isLoggedIn"><a href="#" ng-click="navvm.logout()">Logout</a></li>
+        <li ng-if="!navvm.isLoggedIn"><a href="login">Sign in</a></li>
+        <li ng-if="navvm.isLoggedIn"><a href="profile" ng-bind="navvm.currentUser.name"></a></li>
+        <li ng-if="navvm.isLoggedIn"><a href="#" ng-click="navvm.logout()">Logout</a></li>
       </ul>
     </div>
   </div>
