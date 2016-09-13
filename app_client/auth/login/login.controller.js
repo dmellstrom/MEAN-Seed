@@ -1,8 +1,8 @@
 (function () {
 
   angular
-  .module('meanApp')
-  .controller('loginCtrl', loginCtrl);
+    .module('meanApp')
+    .controller('loginCtrl', loginCtrl);
 
   loginCtrl.$inject = ['$location', 'authentication'];
   function loginCtrl($location, authentication) {
@@ -24,6 +24,7 @@
         });
     };
 
+    loginForm.email.focus();
   }
 
 })();

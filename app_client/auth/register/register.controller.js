@@ -26,6 +26,7 @@
         });
     };
 
+    registerForm.name.focus();
   }
 
 })();
