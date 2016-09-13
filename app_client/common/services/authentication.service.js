@@ -25,9 +25,8 @@
         payload = JSON.parse(payload);
 
         return payload.exp > Date.now() / 1000;
-      } else {
-        return false;
       }
+      return false;
     };
 
     var currentUser = function() {
@@ -41,6 +40,7 @@
           name : payload.name
         };
       }
+      return false;
     };
 
     register = function(user) {
