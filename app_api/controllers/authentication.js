@@ -16,6 +16,15 @@ module.exports.register = function(req, res) {
     return;
   }
 
+  if(!/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,254}$/.test(req.body.name) ||
+    !/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(req.body.email) || req.body.email.length > 254 ||
+    req.body.password.length < 6 || req.body.password.length > 254) {
+    sendJSONresponse(res, 400, {
+      "message": "Invalid characters in request"
+    });
+    return;
+  }
+
   var user = new User();
 
   user.name = req.body.name;
