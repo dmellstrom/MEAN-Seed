@@ -9,11 +9,11 @@
       <form name= "registerForm" ng-submit="vm.onSubmit()">
         <div class="form-group" ng-class="{ 'has-error': registerForm.name.$touched && registerForm.name.$invalid }">
           <label for="name">Full name</label>
-          <input type="text" class="form-control" id="name" name="name" tabindex=1 placeholder="Your full name" ng-model="vm.credentials.name" ng-pattern="^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,254}$" required>
+          <input type="text" class="form-control" id="name" name="name" tabindex=1 placeholder="Your full name" ng-model="vm.credentials.name" ng-pattern="/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,254}$/" required>
         </div>
         <div class="form-group" ng-class="{ 'has-error': registerForm.email.$touched && registerForm.email.$invalid }">
           <label for="email">Email address</label>
-          <input type="email" class="form-control" id="email" name="email" tabindex=2 placeholder="your@email.com" ng-model="vm.credentials.email" ng-maxlength=254 ng-pattern="^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$" required>
+          <input type="email" class="form-control" id="email" name="email" tabindex=2 placeholder="your@email.com" ng-model="vm.credentials.email" ng-maxlength=254 ng-pattern="/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/" required>
         </div>
         <div class="form-group" ng-class="{ 'has-error': registerForm.password.$touched && registerForm.password.$invalid }">
           <label for="password">Password</label>

@@ -12,11 +12,11 @@
       <form name="loginForm" ng-submit="vm.onSubmit()">
         <div class="form-group" ng-class="{ 'has-error': loginForm.email.$touched && loginForm.email.$invalid }">
           <label for="email">Email address</label>
-          <input type="email" class="form-control" id="email" name="email" tabindex=1 placeholder="your@email.com" ng-model="vm.credentials.email" ng-minLength=5 ng-maxlength=254 required>
+          <input type="email" class="form-control" id="email" name="email" tabindex=1 placeholder="your@email.com" ng-model="vm.credentials.email" ng-minLength=5 ng-maxlength=254 ng-pattern="/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/" required>
         </div>
         <div class="form-group" ng-class="{ 'has-error': loginForm.password.$touched && loginForm.password.$invalid }">
           <label for="password">Password</label>
-          <input type="password" class="form-control" id="password" name="password" tabindex=2 placeholder="Enter your password" ng-model="vm.credentials.password" ng-minLength=6 ng-maxlength=25 required>
+          <input type="password" class="form-control" id="password" name="password" tabindex=2 placeholder="Enter your password" ng-model="vm.credentials.password" ng-minLength=6 ng-maxlength=254 required>
         </div>
         <button type="submit" class="btn btn-default" ng-disabled="loginForm.$invalid">Sign in!</button>
       </form>
