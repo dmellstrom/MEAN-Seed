@@ -8,15 +8,13 @@
   function profileCtrl($location, meanData) {
     var vm = this;
 
-    vm.user = {};
+    vm.user = null;
 
-    meanData.getProfile()
-      .success(function(data) {
-        vm.user = data;
-      })
-      .error(function (e) {
-        console.log(e);
-      });
+    meanData.getProfile().then(function(data) {
+      vm.user = data;
+    }).catch(function (error) {
+      console.log(error);
+    });
   }
 
 })();
