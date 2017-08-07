@@ -12,6 +12,8 @@
         headers: {
           Authorization: 'Bearer '+ authentication.getToken()
         }
+      }).then(function(response){
+        return response.data;
       });
     };
 

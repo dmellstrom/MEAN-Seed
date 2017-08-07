@@ -8,8 +8,6 @@
   function navigationCtrl($rootScope, $location, $route, authentication) {
     var vm = this;
 
-    vm.isLoggedIn = authentication.isLoggedIn();
-
     vm.currentUser = authentication.currentUser();
 
     vm.logout = function() {
