@@ -7,61 +7,56 @@
   authentication.$inject = ['$http', '$window'];
   function authentication ($http, $window) {
 
-    var saveToken = function (token) {
-      $window.localStorage['mean-token'] = token;
+    var saveClaim = function (claim) {
+      $window.localStorage['mean-claim'] = JSON.stringify(claim);
     };
 
-    var getToken = function () {
-      return $window.localStorage['mean-token'];
+    var getClaim = function () {
+      if ($window.localStorage['mean-claim']) {
+        return JSON.parse($window.localStorage['mean-claim']);
+      }
+      return false;
     };
 
     var isLoggedIn = function() {
-      var token = getToken();
-      var payload;
+      var claim = getClaim();
 
-      if(token){
-        payload = token.split('.')[1];
-        payload = $window.atob(payload);
-        payload = JSON.parse(payload);
-
-        return payload.exp > Date.now() / 1000;
+      if(claim){
+        return claim.exp > Date.now() / 1000;
       }
       return false;
     };
 
     var currentUser = function() {
       if(isLoggedIn()){
-        var token = getToken();
-        var payload = token.split('.')[1];
-        payload = $window.atob(payload);
-        payload = JSON.parse(payload);
+        var claim = getClaim();
         return {
-          email : payload.email,
-          name : payload.name
+          email : claim.email,
+          name : claim.name
         };
       }
       return false;
     };
 
-    register = function(user) {
+    var register = function(user) {
       return $http.post('/api/register', user).success(function(data){
-        saveToken(data.token);
+        saveClaim(data.claim);
       });
     };
 
-    login = function(user) {
+    var login = function(user) {
       return $http.post('/api/login', user).success(function(data) {
-        saveToken(data.token);
+        saveClaim(data.claim);
       });
     };
 
-    logout = function() {
-      $window.localStorage.removeItem('mean-token');
+    var logout = function() {
+      return $http.post('/api/logout').success(function() {
+        $window.localStorage.removeItem('mean-claim');
+      });
     };
 
     return {
-      saveToken : saveToken,
-      getToken : getToken,
       isLoggedIn : isLoggedIn,
       currentUser : currentUser,
       register : register,
@@ -69,6 +64,5 @@
       logout : logout
     };
   }
-
 
 })();

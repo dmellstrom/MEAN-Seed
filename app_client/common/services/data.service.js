@@ -4,17 +4,14 @@
     .module('meanApp')
     .service('meanData', meanData);
 
-  meanData.$inject = ['$http', 'authentication'];
-  function meanData ($http, authentication) {
+  meanData.$inject = ['$http'];
+  function meanData ($http) {
 
     var getProfile = function () {
-      return $http.get('/api/profile', {
-        headers: {
-          Authorization: 'Bearer '+ authentication.getToken()
-        }
-      }).then(function(response){
-        return response.data;
-      });
+      return $http.get('/api/profile')
+        .then(function(response){
+          return response.data;
+        });
     };
 
     return {

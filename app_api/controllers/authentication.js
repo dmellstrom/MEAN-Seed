@@ -7,6 +7,15 @@ var sendJSONresponse = function(res, status, content) {
   res.json(content);
 };
 
+var sendToken = function(res, user) {
+  var token = user.generateJwtAndClaim();
+  res.status(200);
+  res.cookie('token', token.jwt(), {httpOnly: true});
+  res.json({
+    "claim" : token.claim
+  });
+}
+
 module.exports.register = function(req, res) {
 
   if(!req.body.name || !req.body.email || !req.body.password) {
@@ -37,12 +46,7 @@ module.exports.register = function(req, res) {
       res.status(400).json(err);
       return;
     }
-    var token;
-    token = user.generateJwt();
-    res.status(200);
-    res.json({
-      "token" : token
-    });
+    sendToken(res, user);
   });
 
 };
@@ -67,15 +71,19 @@ module.exports.login = function(req, res) {
 
     // If a user is found
     if(user){
-      token = user.generateJwt();
-      res.status(200);
-      res.json({
-        "token" : token
-      });
+      sendToken(res, user);
     } else {
       // If user is not found
       res.status(401).json(info);
     }
   })(req, res);
 
+};
+
+module.exports.logout = function(req, res) {
+  res.status(200);
+  res.clearCookie('token');
+  res.json({
+    "message": "Logged out"
+  });
 };

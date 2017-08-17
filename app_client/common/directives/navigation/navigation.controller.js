@@ -11,12 +11,13 @@
     vm.currentUser = authentication.currentUser();
 
     vm.logout = function() {
-        authentication.logout();
-        if ($rootScope.protected.indexOf($location.path()) != -1) {
-          $location.path('/');
-        } else {
-          $route.reload();
-        }
+        authentication.logout().then(function() {
+          if ($rootScope.protected.indexOf($location.path()) != -1) {
+            $location.path('/');
+          } else {
+            $route.reload();
+          }
+        })
     }
   }
 

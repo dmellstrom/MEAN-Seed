@@ -3,7 +3,13 @@ var router = express.Router();
 var jwt = require('express-jwt');
 var auth = jwt({
   secret: 'MY_SECRET',
-  userProperty: 'payload'
+  userProperty: 'payload',
+  getToken: function (req) {
+    if (req.cookies.token) {
+      return req.cookies.token;
+    }
+    return null;
+  }
 });
 
 var ctrlProfile = require('../controllers/profile');
@@ -15,5 +21,6 @@ router.get('/profile', auth, ctrlProfile.profileRead);
 // authentication
 router.post('/register', ctrlAuth.register);
 router.post('/login', ctrlAuth.login);
+router.post('/logout', ctrlAuth.logout);
 
 module.exports = router;
