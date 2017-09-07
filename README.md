@@ -7,17 +7,18 @@ Installation: ```npm install```
 Run application: ```bin/www``` (serves to [localhost:3000](http://localhost:3000/))
 
 
-##Authentication Flow
+## Authentication Flow
 
 **MongoDB** stores user data, hashed passwords, and salts (```mongoose.js``` is used for modeling)
 
 **Express** API defines the REST interface (```passport.js``` is the authentication middleware)
 
-**Angular** application uses ```$http``` to send login request to the API
+**Angular** application sends a login request to the API
 
-**Node** generates a JWT with ```jsonwebtoken```; Express passes it to Angular
+**Node** generates a JWT with ```jsonwebtoken```
 
-Angular application:
-* stores the JWT in ```LocalStorage``` to maintain the user’s session
-* checks the validity of the JWT when displaying protected views
-* passes the JWT back to Express for validation by ```express-jwt``` when calling protected API routes
+Express sets the token as an HTTP-only cookie and sends its claim (payload) to Angular
+
+Angular stores the claim in ```LocalStorage``` to keep track of the user’s session
+
+The cookie is then validated by ```express-jwt``` when calling a protected API route
