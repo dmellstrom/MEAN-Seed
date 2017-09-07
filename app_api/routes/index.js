@@ -23,4 +23,9 @@ router.post('/register', ctrlAuth.register);
 router.post('/login', ctrlAuth.login);
 router.post('/logout', ctrlAuth.logout);
 
+//Unspecified API route
+router.use(function(req, res) {
+  res.sendStatus(404);
+});
+
 module.exports = router;
