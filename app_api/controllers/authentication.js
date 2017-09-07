@@ -2,10 +2,12 @@ var passport = require('passport');
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
 
-var sendJSONresponse = function(res, status, content) {
-  res.status(status);
-  res.json(content);
-};
+var send400 = function(res, message) {
+  res.status(400);
+  res.json({
+    message: message
+  });
+}
 
 var sendToken = function(res, user) {
   var token = user.generateJwtAndClaim();
@@ -19,18 +21,22 @@ var sendToken = function(res, user) {
 module.exports.register = function(req, res) {
 
   if(!req.body.name || !req.body.email || !req.body.password) {
-    sendJSONresponse(res, 400, {
-      "message": "All fields required"
-    });
+    send400(res, 'All fields required');
     return;
   }
 
-  if(!/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,254}$/.test(req.body.name) ||
-    !/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(req.body.email) || req.body.email.length > 254 ||
-    req.body.password.length < 6 || req.body.password.length > 254) {
-    sendJSONresponse(res, 400, {
-      "message": "Invalid characters in request"
-    });
+  if (!/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,254}$/.test(req.body.name)) {
+    send400(res, 'Invalid characters in request');
+    return;
+  }
+
+  if (!/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(req.body.email) || req.body.email.length > 255) {
+    send400(res, 'Invalid email address');
+    return;
+  }
+
+  if (req.body.password.length < 6 || req.body.password.length > 255) {
+    send400(res, 'Password must be between 6 and 255 characters in length');
     return;
   }
 
@@ -43,7 +49,11 @@ module.exports.register = function(req, res) {
 
   user.save(function(err) {
     if (err) {
-      res.status(400).json(err);
+      if (err.code === 11000 || err.code === 11001) {
+        send400(res, 'Email address already taken');
+        return;
+      }
+      send400(res, 'Error saving user');
       return;
     }
     sendToken(res, user);
@@ -53,10 +63,8 @@ module.exports.register = function(req, res) {
 
 module.exports.login = function(req, res) {
 
-  if(!req.body.email || !req.body.password) {
-    sendJSONresponse(res, 400, {
-      "message": "All fields required"
-    });
+  if (!req.body.email || !req.body.password) {
+    send400(res, 'All fields required');
     return;
   }
 
@@ -84,6 +92,6 @@ module.exports.logout = function(req, res) {
   res.status(200);
   res.clearCookie('token');
   res.json({
-    "message": "Logged out"
+    message: 'Logged out'
   });
 };
